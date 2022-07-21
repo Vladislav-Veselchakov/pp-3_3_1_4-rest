@@ -2,7 +2,9 @@ package web.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +15,8 @@ import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.net.URI;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,16 +25,44 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminUserController {
-    public static int firstYN = 0;
+    @PersistenceContext
+    EntityManager entityManager;
 
     private final UserService userService;
     private final RoleService roleService;
     public AdminUserController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
+    }
+
+    @GetMapping("getUsers")
+    public ResponseEntity<List<User>> AdminPage(Authentication auth, Model model) {
+        List<User> users = userService.getUsers();
+
+/** from AdminPage
+        model.addAttribute("users", users);
+        List<Role> roles = roleService.getRoles();
+        model.addAttribute("roles", roles);
+        model.addAttribute("result001", "result001");
+
+        List<Object> userRole = entityManager.createNativeQuery(
+                """
+                    SELECT u.name as user, ur.User_id, ur.Role_id, r.name as role
+                    FROM user_role as ur
+                    LEFT JOIN users as u
+                        ON ur.User_id = u.id
+                    LEFT JOIN roles as r\s
+                        ON ur.Role_id = r.id
+                    ORDER BY ur.User_id
+                    """).getResultList();
+        model.addAttribute("userRole", userRole);
+
+        return "adminPage";
+*/
+        return  ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @GetMapping(value = "/addUser")

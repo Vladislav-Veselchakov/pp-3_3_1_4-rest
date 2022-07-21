@@ -1,18 +1,16 @@
-// alert("hello VLEditAddUser");
-// console.log("lalala")
+/* $(document).ready
+$(document).ready(function() {
+    var sideslider = $('[data-toggle=collapse-side]'),
+        sel1 = sideslider.attr('data-target'),
+        sel2 = sideslider.attr('data-target-2');
+});
+*/
 
-// $(document).ready(function() {
-//     var sideslider = $('[data-toggle=collapse-side]'),
-//         sel1 = sideslider.attr('data-target'),
-//         sel2 = sideslider.attr('data-target-2');
-//
-//     sideslider.click(function(event){
-//         $(sel1).toggleClass('in');
-//         $(sel2).toggleClass('out');
-//         $('.dropdown').toggleClass('open');
-//     });
-// });
-//
+/* document.onload
+document.onload = function() {
+    alert("onload()");
+}
+*/
 
 ////////////////////////// add user //////////////////////////////
 let btnAddUser = document.getElementById("btnAddUser");
@@ -31,7 +29,8 @@ function saveUser() {
             body.roles.push({id : role.value, name : role.text });
         }
     }
-    postParams(body, "/admin/addUser")
+    postParams(body, "/admin/addUser");
+    updateUsersTable();
     return false;
 }
 
@@ -65,7 +64,7 @@ async function postParams(pbody, pUrl) {
     // } else {
     //     alert("Ошибка HTTP: " + response.status);
     // }
-    console.log(result.message)
+    //console.log(result.message)
 }
 /////////////// end c пом fetch() ////////////////////////////////////////////////////
 
@@ -165,7 +164,7 @@ $('#editDeleteUser').on('show.bs.modal', async function (event) {
     if (response.ok) { // если HTTP-статус в диапазоне 200-299
         // получаем тело ответа (см. про этот метод ниже)
         json = await response.json();
-        json.roles.sort(compareRoles)
+        json.roles.sort(compareRoles);
     } else {
         alert("Ошибка HTTP: " + response.status);
     }
@@ -191,8 +190,6 @@ $('#editDeleteUser').on('show.bs.modal', async function (event) {
     })
 
 });
-
-
 
 /* addEventListener('show.bs.modal'..) doesn'n work here, but works on boostrab v. 3.1.3
 
@@ -257,8 +254,6 @@ editUserModal.addEventListener('show.bs.modal',  function (event) {
 });
 */
 
-
-
 /* так я делал когда по второму разу задачу решал.
 ////////////////////////////// btn 'delete' (modal win 'edit user') ////////////////////////
 let btnModalDelete = document.getElementById("btnModalDelete");
@@ -308,6 +303,21 @@ async function getDeleteUser(userID) {
 
 }
 
+async function updateUsersTable(){
+    let jsonV = null;
+    let response = await fetch("/admin/getUsers");
+    jsonV =  await response.json();
+
+    // $("#tbodyUsersTable").html("");
+    tbodyUsers = document.getElementById("tbodyUsersTable");
+    tbodyUsers.innerHTML = "fff";
+    let aaa = 111;
+
+    $('#editDeleteUser').modal('hide');
+    $('#nav-UsersТable-tab').tab('show');
+}
+
+// применяется на событии 'show.bs.modal' для сорта ролей. Можно использовать:  json.roles.sort((x,y)=>x-y)
 function compareRoles( a, b ) {
     if ( a.id < b.id){
         return -1;
@@ -318,6 +328,30 @@ function compareRoles( a, b ) {
     return 0;
 }
 
+/* Так я хотел добавить класс, чтобы активировать окно с таблицей юзеров
+    $('#editDeleteUser').modal('hide');
+    // берём элементы верхнего меню, перебираем и делаем активным п. "users table"
+    let ppMenus = document.getElementsByClassName("vlTopMenu");
+    for(punct of ppMenus) {
+        if(punct.id == "nav-UsersТable-tab")
+            punct.classList.add("active");
+        else
+            punct.classList.remove("active");
+
+    }
+    // Toggle class (adds the class if it's not already present and removes it if it is)
+    // element.classList.toggle('hidden');
+
+    // перебираем панели от пунктов меню и делаем актовной панель c таблицой юзеров
+    let menuContent = $(".vlTopMenuContent");
+    menuContent.removeClass("show active")
+    menuContent.each(
+        function (pContent){
+            if (pContent.id =="nav-UsersТable")
+                pContent.classList.add("show active");
+        }
+    );
+*/
 
 
 

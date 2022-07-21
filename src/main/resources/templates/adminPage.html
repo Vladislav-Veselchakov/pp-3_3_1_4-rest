@@ -41,16 +41,16 @@
                     <!---------------- horizontal menu, puncts: "admin", "new user"...  -------------------->
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-link active" id="nav-UsersТable-tab" data-toggle="tab" href="#nav-UsersТable" role="tab" aria-controls="nav-UsersТable" aria-selected="true">Users table</a>
-                            <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-newUser" role="tab" aria-controls="nav-newUser" aria-selected="false">New User</a>
-                            <a class="nav-link" id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">Roles</a>
-                            <a class="nav-link" id="nav-UserRole-tab" data-toggle="tab" href="#nav-UserRole" role="tab" aria-controls="nav-UserRole" aria-selected="false">User-Role</a>
+                            <a class="nav-link active vlTopMenu" id="nav-UsersТable-tab" data-toggle="tab" href="#nav-UsersТable" role="tab" aria-controls="nav-UsersТable" aria-selected="true">Users table</a>
+                            <a class="nav-link vlTopMenu" id="nav-profile-tab" data-toggle="tab" href="#nav-newUser" role="tab" aria-controls="nav-newUser" aria-selected="false">New User</a>
+                            <a class="nav-link vlTopMenu" id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">Roles</a>
+                            <a class="nav-link vlTopMenu" id="nav-UserRole-tab" data-toggle="tab" href="#nav-UserRole" role="tab" aria-controls="nav-UserRole" aria-selected="false">User-Role</a>
                         </div>
                     </nav>
                     <!-------------------content of horizontal menu-------------------------------->
                     <div class="tab-content" id="nav-tabContent">
                         <!-------------------"Users table" content:---------------------------->
-                        <div class="tab-pane fade  show active" id="nav-UsersТable" role="tabpanel" aria-labelledby="nav-UsersТable-tab">
+                        <div class="tab-pane fade  show active vlTopMenuContent" id="nav-UsersТable" role="tabpanel" aria-labelledby="nav-UsersТable-tab">
                             <H5>All users</H5>
                             <table class="table table-borderless border-0 table-striped">
                                 <thead>
@@ -65,7 +65,7 @@
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody th:id="tbodyUsersTable">
                                 <tr th:each = "user : ${users}" th:id="'rowid' + ${user.id}">
                                     <td th:utext = "${user.id}"> </td>
                                     <td th:utext = "${user.firstName}"> </td>
@@ -96,7 +96,7 @@
                             <h4 th:id="result001"></h4>
                         </div> <!------- end of "Users table" ------------>
                         <!------- "new user" content ------------>
-                        <div class="tab-pane fade" id="nav-newUser" role="tabpanel" aria-labelledby="nav-newUser-tab">
+                        <div class="tab-pane fade vlTopMenuContent" id="nav-newUser" role="tabpanel" aria-labelledby="nav-newUser-tab">
                             <h5>Add new user</h5>
                             <div class="row">
                                 <div class="col-1"></div>
@@ -127,7 +127,7 @@
 
                         </div> <!------- end of "new user" ------------>
                         <!------- "roles" content ------------>
-                        <div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
+                        <div class="tab-pane fade vlTopMenuContent" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
                             <table class="table table-borderless border-0 table-striped">
                                 <thead>
                                 <tr>
@@ -153,7 +153,7 @@
 
                         </div> <!------- end of "roles" ------------>
                         <!------- "User-role" content ------------>
-                        <div class="tab-pane fade" id="nav-UserRole" role="tabpanel" aria-labelledby="nav-UserRole-tab">
+                        <div class="tab-pane fade  vlTopMenuContent" id="nav-UserRole" role="tabpanel" aria-labelledby="nav-UserRole-tab">
                             <table class="table table-borderless border-0 table-striped">
                                 <thead>
                                 <tr>
