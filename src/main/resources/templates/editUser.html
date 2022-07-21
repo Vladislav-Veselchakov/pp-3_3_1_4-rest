@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/static/main.css}" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <title>Edit user</title>
+</head>
+<body>
+
+
+<form>
+    <div>
+        <div id="editUser">
+            <input name="id" th:field = "${user.id}" readonly /> <br/>
+            <label>First name: </label>
+            <input type="text" id="firstName"  th:field = "${user.firstName}"/> <br/>
+            <label>Last name: </label>
+            <input type="text" id="lastName"  th:field = "${user.lastName}"/> <br/>
+            <label>E-mail: </label>
+            <input type="text" id="email"  th:field = "${user.email}"/> <br/>
+            <label>Password</label>
+            <input type="text" id="password"  th:field = "${user.password}"   value="password" > </input><br/>
+
+        </div>
+
+        <div id="editUser_roles">
+            <select size="10" multiple name="selectRoles" id="roles">
+                <th:block th:each="role : ${roles}">
+                    <option th:if="${role.checked == true}" selected
+                            th:value="${role.id}"
+                            th:text="${role.name}" name="roleOption">
+                    <option th:unless="${role.checked == true}"
+                            th:value="${role.id}"
+                            th:text="${role.name}" name="roleOption">
+                </th:block>
+            </select>
+
+        </div>
+    </div>
+
+    <br/>
+    <input type="button" value="save" id="bSave"/>
+</form>
+
+<br>
+<form action="#" th:action="@{/logout}" method="get">
+    <input type="submit" value="logout"/>
+</form>
+
+
+
+<script type="text/javascript">
+    let bSave = document.getElementById("bSave");
+    bSave.onclick = function() {
+        let user = {}
+        user.id = document.getElementById("id").value;
+        user.firstName = document.getElementById("firstName").value;
+        user.lastName = document.getElementById("lastName").value;
+        user.email = document.getElementById("email").value;
+        user.password = document.getElementById("password").value;
+        user.roles = []
+
+        let roles = document.getElementById("roles").options;
+        for(role of roles) {
+            if(role.selected){
+                user.roles.push({id : role.value, name : role.text, checked : role.selected });
+            }
+        }
+        postParams(user)
+        return false;
+    }
+
+    /////////////////////////////// с пом. fetch() //////////////////
+    async function postParams(user) {
+        try {
+            let response = await fetch("/admin/editUser", {
+                credentials: 'include',
+                method: 'POST',
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+                body: JSON.stringify(user)
+            })
+            .then(responce => {
+                console.log(responce)
+                if ( responce.redirected) {
+                    window.location.href = responce.url;
+                }
+            });
+        } catch (ex) {
+            console.log(ex.message)
+        }
+        // if (response.ok) { // если HTTP-статус в диапазоне 200-299 получаем тело ответа
+        //     console.log("berfore response()")
+        //     let result = await response.json();
+        //     console.log("after response.json()")
+        // } else {
+        //     alert("Ошибка HTTP: " + response.status);
+        // }
+        console.log(result.message)
+    } /////////////// c пом fetch() ///////////////
+
+    ///////// Данная функция создаёт кроссбраузерный объект XMLHTTP  см. задачу 3-3-1-1 в комментах///////////
+
+
+    /////////////////////////////////////////////////////////////////////////////*/
+
+    /*  Кстати, дл///// Жасулан как получить выбранные опции jquery
+    let roles = [];
+        let i = 0;
+        $(form + " option:selected").each(function () {
+            roles[i] = new Role(this.value, this.text);
+            i++;
+        });
+    */
+
+</script>
+
+
+</body>
+</html>

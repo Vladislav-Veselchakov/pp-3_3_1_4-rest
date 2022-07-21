@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ru-RU">
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/static/main.css}" rel="stylesheet" />
+    <title>VL: admin page</title>
+</head>
+<body>
+<!----------верхняя строка с logout------------------------->
+<div class="container-fluid"><!--верхняя строка с logout-->
+    <div class="row bg-dark text-white">
+        <div class="col-md-8 d-flex justify-content-md-start-start">
+            <span th:text="${userinfo}"></span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-md-end">
+            <a class="text-white" th:href="@{/logout}">logout</a>
+        </div>
+   </div>  <!-- <div class="row">-->
+</div> <!--<div class="container-fluid">--><!--верхняя строка с logout-->
+
+<!--    ______________________ menu and content _________________________-->
+<div class="container-fluid px-0">
+    <div class="row">
+<!--________________________________ меню  (left colunn) _____________________________________________________-->
+        <div class="col-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
+                <a class="nav-link" th:href="@{/user}">User</a>
+<!--                <a class="btn btn-primary" href="#" role="button">User</a>-->
+            </div>
+        </div>
+
+<!--_________________________контент от меню (rigth col : content) ____________________________________________________________-->
+        <div class="col-10">
+            <div class="tab-content" id="v-pills-tabContent">
+<!--   --------------------------content of "Admin" ----------------------------------->
+                <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+                    <h2>Admin panel</h2>
+                    <!---------------- horizontal menu, puncts: "admin", "new user"...  -------------------->
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-link active" id="nav-UsersТable-tab" data-toggle="tab" href="#nav-UsersТable" role="tab" aria-controls="nav-UsersТable" aria-selected="true">Users table</a>
+                            <a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-newUser" role="tab" aria-controls="nav-newUser" aria-selected="false">New User</a>
+                            <a class="nav-link" id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">Roles</a>
+                            <a class="nav-link" id="nav-UserRole-tab" data-toggle="tab" href="#nav-UserRole" role="tab" aria-controls="nav-UserRole" aria-selected="false">User-Role</a>
+                        </div>
+                    </nav>
+                    <!-------------------content of horizontal menu-------------------------------->
+                    <div class="tab-content" id="nav-tabContent">
+                        <!-------------------"Users table" content:---------------------------->
+                        <div class="tab-pane fade  show active" id="nav-UsersТable" role="tabpanel" aria-labelledby="nav-UsersТable-tab">
+                            <H5>All users</H5>
+                            <table class="table table-borderless border-0 table-striped">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Имя</th>
+                                    <th>Фамилия</th>
+                                    <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Role</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "user : ${users}" th:id="'rowid' + ${user.id}">
+                                    <td th:utext = "${user.id}"> </td>
+                                    <td th:utext = "${user.firstName}"> </td>
+                                    <td th:utext = "${user.lastName}"> </td>
+                                    <td th:utext = "${user.email}"> </td>
+                                    <td th:utext = "${user.password}"> </td>
+<!--                                    <td th:utext = "${user.created}"> </td>-->
+<!--                                    <td th:utext = "${user.modified}"> </td>-->
+                                    <td> some role </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary VLedit" data-toggle="modal" data-target="#editDeleteUser"
+                                                th:id="'id' + ${user.id}" name="editName" th:value="${user.id}">
+                                            Edit
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser"
+                                                th:id="'deleteId' + ${user.id}" name="deleteName" th:value="${user.id}">
+                                            Delete
+                                        </button>
+
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <h4 th:id="result001"></h4>
+                        </div> <!------- end of "Users table" ------------>
+                        <!------- "new user" content ------------>
+                        <div class="tab-pane fade" id="nav-newUser" role="tabpanel" aria-labelledby="nav-newUser-tab">
+                            <h5>Add new user</h5>
+                            <div class="row">
+                                <div class="col-1"></div>
+                                <div class="col-6">
+                                    <label for="firstName">First name</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="john" value="DEL_NOW">
+                                        <label for="lastName">Last name</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="smith" value="DEL_NOW">
+                                        <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="name@example.com" value="DEL_NOW">
+                                        <label for="password">Password</label>
+                                    <input type="text" class="form-control" id="password" placeholder="pwd" value="DEL_NOW">
+
+                                    <label for="selectRoles">Roles</label>
+                                    <select class="custom-select" multiple size="7" id="selectRoles">
+                                            <option th:each="role : ${roles}"
+                                                    th:value="${role.id}"
+                                                    th:text="${role.name}">
+                                    </select>
+                                    <br><br>
+
+                                    <button type="button" id="btnAddUser" class="btn btn-success">Add new userr</button>
+
+                                </div> <!-- <div class="col-6"> end of основной контент new user-->
+                                <div class="col-5"></div>
+
+                            </div>
+
+                        </div> <!------- end of "new user" ------------>
+                        <!------- "roles" content ------------>
+                        <div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
+                            <table class="table table-borderless border-0 table-striped">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Role</th>
+                                    <th>actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "role : ${roles}">
+                                    <td th:utext = "${role.id}"> </td>
+                                    <td th:utext = "${role.name}"> </td>
+                                    <td>
+                                        <a th:href="@{/admin/editRole(id=${role.id})}">edit</a>
+                                        <a th:href="@{/admin/deleteRole(id=${role.id})}">delete</a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <h2> <a th:href="@{/admin/addRole}">Add new role</a> </h2>
+
+                        </div> <!------- end of "roles" ------------>
+                        <!------- "User-role" content ------------>
+                        <div class="tab-pane fade" id="nav-UserRole" role="tabpanel" aria-labelledby="nav-UserRole-tab">
+                            <table class="table table-borderless border-0 table-striped">
+                                <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>User_id</th>
+                                    <th>Role_id</th>
+                                    <th>Role</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each = "ur : ${userRole}">
+                                    <td th:utext = "${ur[0]}"> </td>
+                                    <td th:utext = "${ur[1]}"> </td>
+                                    <td th:utext = "${ur[2]}"> </td>
+                                    <td th:utext = "${ur[3]}"> </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div> <!------- end of "user-role" ------------>
+                    </div>  <!-- <div class="tab-content" id="nav-tabContent">  end  of horizontal menu content-->
+
+                </div><!-- end content of Admin (vertical menu) -->
+                <!--   --------------------------content of "User" ----------------------------------->
+                <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+
+                </div><!-- end content of User -->
+            </div>
+        </div>
+    </div>
+
+</div><!--<div class="container-fluid">  контейнер от меню с контентом-->
+
+
+
+
+<!----------------------- Modal window edtit/delete ------------------------------------------->
+<div class="modal fade" id="editDeleteUser" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editDeleteUserLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editDeleteUserLabel">Edit user</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <label for="editId">ID</label>
+                <input type="text" class="form-control" id="editId" readonly>
+                <label for="editFirstName">First name</label>
+                <input type="text" class="form-control" id="editFirstName">
+                <label for="editLastName">Last name</label>
+                <input type="text" class="form-control" id="editLastName">
+                <label for="editEmail">Email address</label>
+                <input type="email" class="form-control" id="editEmail">
+                <label for="editPassword">Password</label>
+                <input type="text" class="form-control" id="editPassword">
+
+                <label for="selectRoles">Roles</label>
+                <select class="custom-select" multiple size="7" id="editWinSelectRoles">
+                </select>
+                <br><br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEditDelete">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--===================================== old version: ====================================================-->
+<!--===================================== old version: ====================================================-->
+
+
+<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>-->
+
+<script th:src="@{/static/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" src="/static/js/VLEditAddUser.js"></script>
+
+</body>
+</html>

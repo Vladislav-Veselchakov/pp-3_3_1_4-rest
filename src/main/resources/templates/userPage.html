@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/static/main.css}" rel="stylesheet" />
+    <title>User page</title>
+</head>
+<body>
+<div class="container-fluid"><!--верхняя строка с logout-->
+    <div class="row bg-dark text-white">
+        <div class="col-md-8 d-flex justify-content-md-start-start">
+            <span th:text="${userinfo}"></span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-md-end">
+            <a class="text-white" th:href="@{/logout}">logout</a>
+        </div>
+    </div>  <!-- <div class="row">-->
+</div> <!--<div class="container-fluid">--><!--верхняя строка с logout-->
+
+<div class="container-fluid px-0">
+    <div class="row">
+        <!--________________________________ меню  (left colunn) _____________________________________________________-->
+        <div class="col-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link" th:href="@{/admin}">Admin</a>
+                <!--                <a class="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="false">User</a>-->
+                <a class="nav-link active" th:href="@{/user}">User</a>
+            </div>
+        </div>
+
+        <!--_________________________контент от меню (rigth col : content) ____________________________________________________________-->
+        <div class="col-10">
+            <h2>User information page</h2>
+
+            <!--------------------- "Users table":---------------------------->
+            <div class="tab-pane fade  show active" id="nav-UsersТable" role="tabpanel" aria-labelledby="nav-UsersТable-tab">
+                <H5>About user</H5>
+                <table class="table table-borderless border-0 table-striped">
+                    <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Имя</th>
+                        <th>Фамилия</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:utext = "${user.id}"> </td>
+                        <td th:utext = "${user.firstName}"> </td>
+                        <td th:utext = "${user.lastName}"> </td>
+                        <td th:utext = "${user.email}"> </td>
+                        <td th:utext = "${user.password}"> </td>
+                        <!--                                    <td th:utext = "${user.created}"> </td>-->
+                        <!--                                    <td th:utext = "${user.modified}"> </td>-->
+                        <td th:utext="${strRoles}"> some role </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+            <!------- end of "Users table" ------------>
+
+        </div>
+    </div>
+</div>
+<!--<div>-->
+<!--    <th:block th:each="msg : ${messages}">-->
+<!--        <h1 th:text="${msg}"></h1>-->
+<!--    </th:block>-->
+<!--</div>-->
+
+
+<!--<form action="#" th:action="@{/logout}" method="get">-->
+<!--    <input type="submit" value="logout"/>-->
+<!--</form>-->
+
+<script th:src="@{/static/js/jquery-3.6.0.min.js}"></script>
+<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+<script type="text/javascript" src="/static/js/VLEditAddUser.js"></script>
+
+</body>
+</html>

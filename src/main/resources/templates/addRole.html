@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru-RU">
+<head>
+    <meta charset="UTF-8">
+    <title>Add role</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/admin/addRole}" method="post" accept-charset="UTF-8" th:object="${role}">
+
+    <label for="fn">Role name: </label>
+    <input type="text" id="fn"  th:field = "*{name}"  > </input><br/>
+
+    <input type="submit" value="Add role"/>
+</form>
+
+<form action="#" th:action="@{/logout}" method="get">
+    <input type="submit" value="logout"/>
+</form>
+
+</body>
+</html>

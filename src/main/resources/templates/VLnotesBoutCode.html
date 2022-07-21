@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VL notes about code</title>
+</head>
+<body>
+
+<h2> Заметки о коде ВЛ</h2>
+см. скрипт внутри
+
+<script>
+  /* /////////////////получаем значения из ячеек по клику на кн. Edit ///////////////////////////////////
+  // function btnEditOnClick() {
+  //     let rowID = "rowid" + this.value;
+  //     let cells = document.getElementById(rowID).getElementsByTagName("td");
+  //     $("#editId").val(cells[0].innerText);
+  //     // если не сработал jquery (а он несколько раз не работал для поля ID), то можно так:
+  //     // document.getElementById("editId").value = cells[0].innerText;
+  //     $("#editFirstName").val(cells[1].innerText);
+  //     $("#editLastName").val(cells[2].innerText);
+  //     $("#editEmail").val(cells[3].innerText);
+  //     $("#editPassword").val(cells[4].innerText);
+  //
+  // }
+
+   */
+
+  /* /////////// можно использовать событие модального окна чтобы отловить нажатую кнопку: /////////////
+  // $("#editDeleteUser").on("show.bs.modal",
+  // function (event) {
+  //             // так можно получить нажатую кнопку,  значение нажатой кнопки и т.д.:
+  //             let ValueOfButton = event.relatedTarget.value
+  //             alert("on(\"show.bs.modal\"");
+  //         }
+  // )
+   */
+
+  /*///////////// присвоение одной ф-ции нескольким элементам html в цикле://////////////
+  // 1st var
+  // Вам абсолютно правильно делают замечание, что ID в рамках страницы должен быть уникальным, но можно так:
+  // document.querySelectorAll('[id="header"]');
+  //2nd var:
+  // делаем класс, например "__select" и далее:
+  // const selects = document.querySelectorAll('.__select');
+  // selects.forEach(function(select) {
+  */
+  /* ///////////// обработка одной строки таблицы по клику по кнопке "edit" ///////
+  // <table>
+  //     <tr onClick="SetBackGround(this)">
+  //         <td>1</td>
+  //         <td>2</td>
+  //         <td>3</td>
+  //     </tr>
+  //     <tr onClick="SetBackGround(this)">
+  //         <td>4</td>
+  //         <td>5</td>
+  //         <td>6</td>
+  //     </tr>
+  //     <tr onClick="SetBackGround(this)">
+  //         <td>7</td>
+  //         <td>8</td>
+  //         <td>9</td>
+  //     </tr>
+  // </table>
+  // <script>
+  //     function SetBackGround(sender)
+  //     {
+  //         var cells = sender.getElementsByTagName("td");
+  //         for (var i = 0; i <= cells.length - 1;i++)
+  //     {
+  //         cells[i].style.backgroundColor = "#b9ffb9";
+  //     }
+  //     }
+  //
+*/
+
+/* ////////////some examples of fetch()////////////////////////////////
+// fetch('http://jsonplaceholder.typicode.com/users').then(function(response) {
+//     // response.json() returns a promise, use the same .then syntax to work with the results
+//     response.json().then(function(users){
+//         // users is now our actual variable parsed from the json, so we can use it
+//         users.forEach(function(user){
+//             console.log(user.name)
+//         });
+//     });
+// }).catch(err => console.error(err));
+//
+// ///////////////////////////
+// fetch('http://jsonplaceholder.typicode.com/users', {
+//     method: 'GET'
+// }).then((response) => {
+//     response.json().then((jsonResponse) => {
+//         console.log(jsonResponse)
+//     })
+//     // assuming your json object is wrapped in an array
+//     response.json().then(i => i.forEach(i => console.log(i.name)))
+// }).catch((err) => {
+//     console.log(`Error: ${err}` )
+// });
+// ////////////////////////////////
+// response.json() returns a promise, so you cannot just call forEach on it.
+//     Something more along the lines of
+// response.json().then(function(users){users.forEach(function(user){console.log(user.name)})
+
+
+///////////////////////// https://learn.javascript.ru/fetch
+
+
+
+
+*/
+
+/* /////////////// add <options> to <select> //////////////////////
+https://stackoverflow.com/questions/740195/adding-options-to-a-select-using-jquery
+//////////////////////// 1st without JQuery ///////////////////////////
+var s= document.getElementById('mySelect');
+s.options[s.options.length]= new Option('My option', '1');
+
+//////////////////////// 2ndwithout JQuery  ///////////////////////////
+
+https://developer.mozilla.org/en-US/docs/Web/API/HTMLSelectElement/add
+
+//////////// Append to an Existing Collection
+var sel = document.getElementById("existingList");
+
+var opt = document.createElement("option");
+opt.value = "3";
+opt.text = "Option: Value 3";
+
+sel.add(opt, null);
+
+/////// Inserting to an Existing Collection
+
+var sel = document.getElementById("existingList");
+
+var opt = document.createElement("option");
+opt.value = "3";
+opt.text = "Option: Value 3";
+
+sel.add(opt, sel.options[1]);
+
+//////////////////////// 3rd ///////////////////////////
+commentator on stackoverflow:
+you  can see on
+ http://mycodeprograms.blogspot.com/2013/09/how-to-handle-select-and-option-tag-in.html
+ this methods:
+1. $('#select').append($('<option>', {value:1, text:'One'}));
+
+2. $('#select').append('<option value="1">One</option>');
+
+3. var option = new Option(text, value); $('#select').append($(option));
+
+//////////////////////// 4th ///////////////////////////
+$('#selectID').append( '<option value="'+value_variable+'">'+text_variable+'</option>' );
+
+//////////////////////// 5th ///////////////////////////
+    $("#mySelect").append('<option value=1>My option</option>');
+    Or use $("#mySelect").html(....) to replace the current options with the new ones.
+    $('<option/>').val(optVal).text('some option').appendTo('#mySelect')
+
+//////////////////////// 6th ///////////////////////////
+var html = '';
+
+for (var i = 0, len = data.length; i < len; ++i) {
+    html.join('<option value="' + data[i]['value'] + '">' + data[i]['label'] + '</option>');
+}
+
+$('#select').append(html);
+
+//////////////////////// 7th - empty and refresh ///////////////////////////
+$('#mySelect').empty().append('<option value=1>My option</option>').selectmenu('refresh');
+
+//////////////////////// 8th wo JQUERY ///////////////////////////
+$('#mySelect').append($('<option>', {
+    value: 1,
+    text: 'My option'
+}));
+//// add from colltction
+$.each(items, function (i, item) {
+    $('#mySelect').append($('<option>', {
+        value: item.value,
+        text : item.text
+    }));
+});
+
+
+//////////////////////// 9th ///////////////////////////
+https://www.delftstack.com/howto/javascript/add-options-to-select-with-javascript/
+
+function myF() {
+  var x = document.getElementById("mySelect");
+  var option = new Option("Hand", "hand");
+  console.log(option.value);
+  x.appendChild(option);
+}
+
+//////////////////////// 10th set SELECTED option///////////////////////////
+https://stackoverflow.com/questions/12557999/how-to-add-selected-in-option-attribute-using-javascript-or-jquery
+
+var select = document.getElementById('countryselect');
+var option;
+
+for (var i=0; i<select.options.length; i++) {
+  option = select.options[i];
+
+  if (option.value == '4') {
+  // or
+  // if (option.text == 'Malaysia') {
+     option.setAttribute('selected', true);
+
+     // For a single select, the job's done
+     return;
+  }
+
+or
+
+var select = document.getElementById('countryselect');
+var option;
+
+for (var i=0; i<select.options.length; i++) {
+  option = select.options[i];
+
+  if (option.value == '4') {
+  // or
+  // if (option.text == 'Malaysia') {
+     option.selected = true;
+     return;
+  }
+}
+
+
+or
+
+var els = document.querySelector('.city option[value="NY"]');
+if(els){
+    els.setAttribute('selected','selected');
+    //or els.selected = true;
+}
+
+or
+
+var els = document.querySelector('select[name="city"] option[value="360"]');
+if(els){
+    els.selected = true;
+}
+
+or
+
+https://stackoverflow.com/questions/5790668/add-selected-attribute-to-option-in-select-menu-with-jquery
+
+As of jQuery 1.6 "To retrieve and change DOM properties such as the checked, selected, or disabled state of form elements, use the .prop() method."
+
+$("#someselect option[value=somevalue]").prop("selected", "selected")
+Edit:
+
+Select Option:
+
+$("#someselect option[value=somevalue]").prop("selected", true)
+Deselect Option:
+
+$("#someselect option[value=somevalue]").prop("selected", false)
+
+or
+
+select[0].options[select[0].selectedIndex].setAttribute('selected','selected');
+
+*/
+
+
+
+/*  ////////////// hide modal on pure js - Как я закрывал на голом js ///////////////////////////////////
+подсказали на сайте
+https://stackoverflow.com/questions/46577690/hide-bootstrap-modal-using-pure-javascript-on-click
+И так, делаем:
+    let editDeleteUser = document.getElementById("editDeleteUser");
+    editDeleteUser.classList.remove('show');
+    editDeleteUser.setAttribute('aria-hidden', 'true');
+    editDeleteUser.setAttribute('style', 'display: none');
+
+    // тут, как я понял, когда много модальных окон открыто:
+    // // get modals
+    // const modals = document.getElementsByClassName('modal');
+    //
+    // // on every modal change state like in hidden modal
+    // for(let i=0; i<modals.length; i++) {
+    //     modals[i].classList.remove('show');
+    //     modals[i].setAttribute('aria-hidden', 'true');
+    //     modals[i].setAttribute('style', 'display: none');
+    // }
+
+    // get modal backdrops
+    const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
+
+    // remove every modal backdrop
+    for(let i=0; i<modalsBackdrops.length; i++) {
+        document.body.removeChild(modalsBackdrops[i]);
+    }
+
+
+Интересное предлагали тут, но не пробовал:
+https://stackoverflow.com/questions/46577690/hide-bootstrap-modal-using-pure-javascript-on-click
+
+Follow pure javascript code works fine for my bootstrap5.
+
+let myModalEl = document.getElementById('modal1')
+let modal = bootstrap.Modal.getInstance(myModalEl)
+modal.hide()
+*/
+
+/* ссылка - Модальное окно на голом js
+https://habr.com/ru/sandbox/54323/
+*/
+
+</script>
+
+
+</body>
+</html>
