@@ -308,15 +308,52 @@ async function updateUsersTable(){
     let response = await fetch("/admin/getUsers");
     jsonV =  await response.json();
 
-    // $("#tbodyUsersTable").html("");
-    tbodyUsers = document.getElementById("tbodyUsersTable");
-    tbodyUsers.innerHTML = "fff";
+    let tbodyUsers = document.getElementById("tbodyUsersTable");
+    tbodyUsers.innerHTML = "";
+    //jsonV.forEach(inserRowInUsersTable);
+    for(let usr of jsonV) {
+        inserRowInUsersTable(usr, tbodyUsers);
+    }
     let aaa = 111;
-
     $('#editDeleteUser').modal('hide');
     $('#nav-UsersТable-tab').tab('show');
 }
 
+function inserRowInUsersTable(user, tbodyUsers){
+    let row = tbodyUsers.insertRow(); //tBody0.insertRow();
+    row.insertCell(0).innerText = user.id;
+    row.insertCell(1).innerText = user.firstName;
+    row.insertCell(2).innerText = user.lastName;
+    row.insertCell(3).innerText = user.email;
+    row.insertCell(4).innerText = user.password;
+    row.insertCell(5).innerText = roles2Str(user.roles);
+    row.insertCell(6).innerText = "edit";
+    row.insertCell(7).innerText = "delete";
+    let htmbtnEdit =
+        "<button type=\"button\" className=\"btn btn-primary VLedit\" data-toggle=\"modal\" data-target=\"#editDeleteUser\"\
+                id='id" + user.id + "' name=\"editName\" value=\"" + user.id + "\"> \
+            Edit\
+        </button>"
+    row.insertCell(8).innerHTML = htmbtnEdit;
+
+    // <td>
+    //     <button type="button" className="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser"
+    //             th:id="'deleteId' + ${user.id}" name="deleteName" th:value="${user.id}">
+    //         Delete
+    //     </button>
+    //
+        // cell.innerText = "id = " + user.id;
+
+
+}
+
+function roles2Str(roles) {
+    let stringRoles = "";
+    roles.forEach(x=>{
+       stringRoles += x.name + ",";
+    });
+    return stringRoles;
+}
 // применяется на событии 'show.bs.modal' для сорта ролей. Можно использовать:  json.roles.sort((x,y)=>x-y)
 function compareRoles( a, b ) {
     if ( a.id < b.id){
