@@ -1,10 +1,7 @@
-/* $(document).ready
+ // $(document).ready
 $(document).ready(function() {
-    var sideslider = $('[data-toggle=collapse-side]'),
-        sel1 = sideslider.attr('data-target'),
-        sel2 = sideslider.attr('data-target-2');
+    updateUsersTable();
 });
-*/
 
 /* document.onload
 document.onload = function() {
@@ -30,7 +27,7 @@ function saveUser() {
         }
     }
     postParams(body, "/admin/addUser");
-    updateUsersTable();
+    // updateUsersTable(); - see in postParams(...)
     return false;
 }
 
@@ -51,6 +48,10 @@ async function postParams(pbody, pUrl) {
             if ( responce.redirected) {
                 window.location.href = responce.url;
             }
+        })
+        .then(responce => {
+            updateUsersTable();
+            console.log(responce)
         });
 
         console.log("after fetch()")
@@ -148,6 +149,8 @@ btnModalEdit.onclick = function (pEvent) {
     }
 
     $('#editDeleteUser').modal('hide');
+    // не имеет смысла здесь, т.к. ф-ция fetch() асинхронная. В ней и смотри updateUsersTable
+    // updateUsersTable();
     return false;
 
 } // btnModalEdit.onclick = function (pEvent)
@@ -283,23 +286,25 @@ async function getDeleteUser(userID) {
             headers: {'Content-Type': 'application/json;charset=utf-8'}
         })
             .then(responce => {
+                updateUsersTable();
                 console.log(responce)
-                if ( responce.redirected) {
-                    window.location.href = responce.url;
-                }
+                // if ( responce.redirected) {
+                //     window.location.href = responce.url;
+                //     updateUsersTable();
+                // }
             });
         console.log(response);
     } catch (ex) {
         alert(ex.message);
     }
-    if (response.ok) { // если HTTP-статус в диапазоне 200-299 получаем тело ответа
-        // window.location.href = "/admin";
-        $("#result001").html("Deleted at " + new Date());
-        // updateUsersTable();
-        // updUserRole();
-    } else {
-        alert("Ошибка HTTP: " + response.status);
-    }
+    // if (response.ok) { // если HTTP-статус в диапазоне 200-299 получаем тело ответа
+    //     // window.location.href = "/admin";
+    //     $("#result001").html("Deleted at " + new Date());
+    //     // updateUsersTable();
+    //     // updUserRole();
+    // } else {
+    //     alert("Ошибка HTTP: " + response.status);
+    // }
 
 }
 
@@ -319,22 +324,76 @@ async function updateUsersTable(){
     $('#nav-UsersТable-tab').tab('show');
 }
 
+////////////////////////// update user info ////////////////////////////////
+ let btnMenuUser = document.getElementById("v-pills-user-tab");
+btnMenuUser.onclick = async function () {
+    let jUsers = null;
+    let response = await fetch("/user/getUserInfo");
+    jUsers =  await response.json();
+
+    let tbodyJQ = $("#tblUserInfo tbody").empty();
+    let sRoles = "";
+     jUsers.roles.forEach(role => sRoles += role.name + ", ");
+    // if(jUsers.hasOwnProperty(length)) {}
+    // for (i = 0; i < jUsers.length; i++) {
+        tbodyJQ.append(`<tr>
+            <td> ${jUsers.id} </td>
+            <td> ${jUsers.firstName} </td>
+            <td> ${jUsers.lastName} </td>
+            <td> ${jUsers.email} </td>
+            <td> ${jUsers.password} </td>
+            <td> ${sRoles} </td>
+        </tr>`);
+    // <td> ${jUsers[i].modified} </td>
+    // <td class="vl_EditButton"> <input type="button" value="Edit" class="btn btn-success" id="'bEdit' + ${jUsers[i].id}" data-bs-toggle="modal" data-bs-target="#editUser" UserID="${jUsers[i].id}"/> </td>
+    // <td class="vl_DeleteButton"> <input type="button" value="Delete" class="btn btn-danger" id="'bDelete' + ${jUsers[i].id}" data-bs-toggle="modal" data-bs-target="#editUser" UserID="${jUsers[i].id}"/> </td>
+    // } // for (i = 0; i < jUsers.length; i++) {
+};
+
 function inserRowInUsersTable(user, tbodyUsers){
     let row = tbodyUsers.insertRow(); //tBody0.insertRow();
-    row.insertCell(0).innerText = user.id;
-    row.insertCell(1).innerText = user.firstName;
-    row.insertCell(2).innerText = user.lastName;
-    row.insertCell(3).innerText = user.email;
-    row.insertCell(4).innerText = user.password;
-    row.insertCell(5).innerText = roles2Str(user.roles);
-    row.insertCell(6).innerText = "edit";
-    row.insertCell(7).innerText = "delete";
-    let htmbtnEdit =
-        "<button type=\"button\" className=\"btn btn-primary VLedit\" data-toggle=\"modal\" data-target=\"#editDeleteUser\"\
-                id='id" + user.id + "' name=\"editName\" value=\"" + user.id + "\"> \
-            Edit\
-        </button>"
-    row.insertCell(8).innerHTML = htmbtnEdit;
+    let cell = null;
+    cell = row.insertCell(0);
+    cell.innerText = user.id;
+    cell = row.insertCell(1);
+    cell.innerText = user.firstName;
+    cell = row.insertCell(2);
+    cell.innerText = user.lastName;
+    cell = row.insertCell(3);
+    cell.innerText = user.email;
+    cell = row.insertCell(4);
+    cell.innerText = user.password;
+    cell = row.insertCell(5);
+    cell.innerText = roles2Str(user.roles);
+    let btnEditInTable = document.getElementById("idVlEditHidden").cloneNode();
+    btnEditInTable.hidden = false;
+    btnEditInTable.innerText = "Edit";
+    btnEditInTable.value = user.id;
+    btnEditInTable.id = "id" + user.id;
+/* работает, css подхватывает it works:
+    let htmlBtnEdit = document.createElement("button");
+    htmlBtnEdit.innerText = "hoho Edit";
+    htmlBtnEdit.classList.add("btn");
+    htmlBtnEdit.classList.add("btn-primary");
+    htmlBtnEdit.classList.add("VLedit");
+*/
+        // "<button type=\"button\" className=\"btn btn-primary VLedit\" data-toggle=\"modal\" data-target=\"#editDeleteUser\"\
+        //         id='id" + user.id + "' name=\"editName\" value=\"" + user.id + "\"> \
+        //     Edit\
+        // </button>"
+    // row.insertCell(6).innerHTML = htmlBtnEdit;
+    // row.insertCell(6).innerHTML = htmlBtnEdit;
+    cell = row.insertCell(6);
+    cell.append(btnEditInTable);
+
+    let btnDeleteInTable = document.getElementById("idVlDeleteidden").cloneNode();
+    btnDeleteInTable.hidden = false;
+    btnDeleteInTable.innerText = "Delete001";
+    btnDeleteInTable.value = user.id;
+    btnDeleteInTable.id = "deleteId" + user.id;
+    btnDeleteInTable.onclick = btnDeleteOnClick;
+    cell = row.insertCell(7);
+    cell.append(btnDeleteInTable);
 
     // <td>
     //     <button type="button" className="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser"

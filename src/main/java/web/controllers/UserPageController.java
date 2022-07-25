@@ -1,24 +1,32 @@
 package web.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import web.model.Role;
 import web.model.User;
+import web.service.RoleService;
 import web.service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
 public class UserPageController {
     private UserService userService;
+    private final RoleService roleService;
 
-    public UserPageController(UserService service) {
+    public UserPageController(UserService service, RoleService roleService) {
         this.userService = service;
+        this.roleService = roleService;
     }
 
     @GetMapping(value = "")
@@ -48,4 +56,25 @@ public class UserPageController {
 //        model.addAttribute("messages", messages);
         return "userPage";
     }
-}
+
+    @GetMapping(value = "getUserInfo")
+    public ResponseEntity<User> getUserInfo(Authentication auth, ModelMap model) {
+
+        User user = (User) auth.getPrincipal();
+
+        List<Role> rolessWCheck = roleService.getRolesWithCheck(user);
+        Set<Role> roles2 = rolessWCheck.stream().filter(role->role.getChecked()).collect(Collectors.toSet());
+        user.setRoles(roles2);
+
+        //        user.setRoles(rolessWCheck.stream().collect(Collectors.toSet()));
+//        if (foundStudent == null) {
+//            return ResponseEntity.notFound().build();
+//        } else {
+//            return ResponseEntity.ok(foundStudent);
+//        }
+
+        return ResponseEntity.ok(user);
+
+    }
+
+} // public class UserPageController {

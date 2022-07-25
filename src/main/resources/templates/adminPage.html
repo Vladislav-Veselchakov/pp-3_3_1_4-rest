@@ -27,7 +27,7 @@
         <div class="col-2">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="true">Admin</a>
-                <a class="nav-link" th:href="@{/user}">User</a>
+                <a class="nav-link" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab" aria-controls="v-pills-usere" aria-selected="true">user</a>
 <!--                <a class="btn btn-primary" href="#" role="button">User</a>-->
             </div>
         </div>
@@ -66,14 +66,15 @@
                                 </tr>
                                 </thead>
                                 <tbody th:id="tbodyUsersTable">
+<!--  DEL_NOW when ready
                                 <tr th:each = "user : ${users}" th:id="'rowid' + ${user.id}">
                                     <td th:utext = "${user.id}"> </td>
                                     <td th:utext = "${user.firstName}"> </td>
                                     <td th:utext = "${user.lastName}"> </td>
                                     <td th:utext = "${user.email}"> </td>
                                     <td th:utext = "${user.password}"> </td>
-<!--                                    <td th:utext = "${user.created}"> </td>-->
-<!--                                    <td th:utext = "${user.modified}"> </td>-->
+&lt;!&ndash;                                    <td th:utext = "${user.created}"> </td>&ndash;&gt;
+&lt;!&ndash;                                    <td th:utext = "${user.modified}"> </td>&ndash;&gt;
                                     <td> some role </td>
                                     <td>
                                         <button type="button" class="btn btn-primary VLedit" data-toggle="modal" data-target="#editDeleteUser"
@@ -89,6 +90,7 @@
 
                                     </td>
                                 </tr>
+-->
 
                                 </tbody>
                             </table>
@@ -179,6 +181,28 @@
                 </div><!-- end content of Admin (vertical menu) -->
                 <!--   --------------------------content of "User" ----------------------------------->
                 <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+                    <h2>User information page</h2>
+                    <H5>About user</H5>
+                    <table class="table table-borderless border-0 table-striped" id="tblUserInfo">
+                        <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Role</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbUserInfoPg">
+                        <tr>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+
 
                 </div><!-- end content of User -->
             </div>
@@ -243,6 +267,16 @@
 
 <!--===================================== old version: ====================================================-->
 <!--===================================== old version: ====================================================-->
+<button type="button" class="btn btn-primary VLedit" data-toggle="modal" data-target="#editDeleteUser" hidden
+        id="idVlEditHidden"> Edit </button>
+<button type="button" class="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser" hidden
+        id="idVlDeleteidden" name="deleteName"> Delete </button>
+
+<!--
+
+<button type="button" class="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser" id="deleteId41" name="deleteName" value="41">
+
+-->
 
 
 <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
