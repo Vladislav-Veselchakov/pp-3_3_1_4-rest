@@ -79,7 +79,7 @@ arrBtnEdit.forEach(function(elem) {
 const arrBtnDelete = document.querySelectorAll('.VLdelete');
 arrBtnDelete.forEach(function(elem) {
         elem.onclick = btnDeleteOnClick;
-    })
+})
 
 ////////////////////////////// func to assign to btn 'edit' (in users table)////////////////////////////
 async function btnEditOnClick() {
@@ -349,7 +349,7 @@ btnMenuUser.onclick = async function () {
     // <td class="vl_DeleteButton"> <input type="button" value="Delete" class="btn btn-danger" id="'bDelete' + ${jUsers[i].id}" data-bs-toggle="modal" data-bs-target="#editUser" UserID="${jUsers[i].id}"/> </td>
     // } // for (i = 0; i < jUsers.length; i++) {
 };
-
+///////////////////// insert row in UsersTable ////////////////////////////
 function inserRowInUsersTable(user, tbodyUsers){
     let row = tbodyUsers.insertRow(); //tBody0.insertRow();
     let cell = null;
@@ -368,6 +368,7 @@ function inserRowInUsersTable(user, tbodyUsers){
     let btnEditInTable = document.getElementById("idVlEditHidden").cloneNode();
     btnEditInTable.hidden = false;
     btnEditInTable.innerText = "Edit";
+    btnEditInTable.onclick = btnEditOnClick;
     btnEditInTable.value = user.id;
     btnEditInTable.id = "id" + user.id;
 /* работает, css подхватывает it works:
@@ -389,6 +390,7 @@ function inserRowInUsersTable(user, tbodyUsers){
     let btnDeleteInTable = document.getElementById("idVlDeleteidden").cloneNode();
     btnDeleteInTable.hidden = false;
     btnDeleteInTable.innerText = "Delete001";
+    btnDeleteInTable.onclick = btnDeleteOnClick;
     btnDeleteInTable.value = user.id;
     btnDeleteInTable.id = "deleteId" + user.id;
     btnDeleteInTable.onclick = btnDeleteOnClick;

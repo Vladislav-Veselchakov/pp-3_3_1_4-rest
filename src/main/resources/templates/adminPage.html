@@ -66,32 +66,6 @@
                                 </tr>
                                 </thead>
                                 <tbody th:id="tbodyUsersTable">
-<!--  DEL_NOW when ready
-                                <tr th:each = "user : ${users}" th:id="'rowid' + ${user.id}">
-                                    <td th:utext = "${user.id}"> </td>
-                                    <td th:utext = "${user.firstName}"> </td>
-                                    <td th:utext = "${user.lastName}"> </td>
-                                    <td th:utext = "${user.email}"> </td>
-                                    <td th:utext = "${user.password}"> </td>
-&lt;!&ndash;                                    <td th:utext = "${user.created}"> </td>&ndash;&gt;
-&lt;!&ndash;                                    <td th:utext = "${user.modified}"> </td>&ndash;&gt;
-                                    <td> some role </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary VLedit" data-toggle="modal" data-target="#editDeleteUser"
-                                                th:id="'id' + ${user.id}" name="editName" th:value="${user.id}">
-                                            Edit
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser"
-                                                th:id="'deleteId' + ${user.id}" name="deleteName" th:value="${user.id}">
-                                            Delete
-                                        </button>
-
-                                    </td>
-                                </tr>
--->
-
                                 </tbody>
                             </table>
 
@@ -261,16 +235,16 @@
 
 
 
-
-
-
-
-<!--===================================== old version: ====================================================-->
-<!--===================================== old version: ====================================================-->
 <button type="button" class="btn btn-primary VLedit" data-toggle="modal" data-target="#editDeleteUser" hidden
         id="idVlEditHidden"> Edit </button>
 <button type="button" class="btn btn-danger VLdelete" data-toggle="modal" data-target="#editDeleteUser" hidden
         id="idVlDeleteidden" name="deleteName"> Delete </button>
+
+
+
+
+<!--===================================== old version: ====================================================-->
+<!--===================================== old version: ====================================================-->
 
 <!--
 
